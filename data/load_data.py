@@ -5,6 +5,10 @@ import random
 import cv2
 import os
 
+def cv_imread(file_path):
+    cv_img = cv2.imdecode(np.fromfile(file_path, dtype=np.uint8), -1)
+    return cv_img
+
 CHARS = ['京', '沪', '津', '渝', '冀', '晋', '蒙', '辽', '吉', '黑',
          '苏', '浙', '皖', '闽', '赣', '鲁', '豫', '鄂', '湘', '粤',
          '桂', '琼', '川', '贵', '云', '藏', '陕', '甘', '青', '宁',
@@ -36,7 +40,9 @@ class LPRDataLoader(Dataset):
 
     def __getitem__(self, index):
         filename = self.img_paths[index]
-        Image = cv2.imread(filename)
+        print(filename)
+        Image = cv_imread(filename)
+        #print(Image)
         height, width, _ = Image.shape
         if height != self.img_size[1] or width != self.img_size[0]:
             Image = cv2.resize(Image, self.img_size)
